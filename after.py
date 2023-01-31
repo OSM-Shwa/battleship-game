@@ -5,6 +5,23 @@ import copy as c
 import os
 import random as rand
 
+def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
+    """Read an integer between a min and max value"""
+    
+    while True:
+        line = input(prompt)
+        try:
+            value = int(line)
+            if value < min_value:
+                print(f"The minimum value is {min_value}. Try again.")
+            elif value > max_value:
+                print(f"The maximum value is {max_value}. Try again.")
+            else:
+                return value
+        except ValueError:
+            print("That's not a number! Try again.")
+
+
 """
 Defining the Game class to make it easier to 
 understand the code further in the project
