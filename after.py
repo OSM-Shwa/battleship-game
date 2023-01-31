@@ -4,6 +4,7 @@
 import copy as c
 import os
 import random as rand
+from typing import Callable
 
 def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
     """Read an integer between a min and max value."""
@@ -20,6 +21,19 @@ def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
                 return value
         except ValueError:
             print("That's not a number! Try again.")
+
+def read_guess(already_guessed: Callable[[int, int], bool]) -> tuple[int, int]:
+    while True:
+
+        # read the row and column
+        guess_row = read_int("Guess row: ", max_value=5) - 1
+        guess_col = read_int("Guess column: ", max_value=5) - 1
+
+        # if the guess is valid, return the guessed row and column
+        if not already_guessed(guess_row, guess_col):
+            return guess_row, guess_col
+
+        print("You've already guessed on that row! Try again.")
 
 
 """
@@ -105,27 +119,8 @@ class Game(object):
     As of writing this comment I'm avoiding writing any game logic in the function.
     """
 
-    def player_guesses(self):
-        if self.player_list[self.current_player - 1] == 0:
-            return False
-        else:
-            print(
-                "Player {} has {} guesses left.".format(
-                    self.current_player, self.player_list[self.current_player - 1]
-                )
-            )
-
-            print("Player {}: Guess row: ".format(self.current_player), end="")
-            self.guess_row = self.user_input()
-
-            print("Player {}: Guess column: ".format(self.current_player), end="")
-            self.guess_col = self.user_input()
-
-            if self.board[self.guess_row][self.guess_col] == "X":
-                print("You've already guessed on that row! Try again.")
-                return self.player_guesses()
-            else:
-                return None
+    
+                
 
     """
     Seperating out the game_logic to try to make the main function as readable as possible.
