@@ -100,18 +100,6 @@ class Game(object):
     I also use recursive methods here to avoid using while loops.
     """
 
-    def user_input(self):
-        line = input("\n")
-        if len(line) != 0:
-            if int(line) > len(self.board):
-                print("That's not even in the ocean! Try again.", end="")
-                return self.user_input()
-            else:
-                return int(line) - 1
-        else:
-            print("You didn't type anything! Try again", end="")
-            return self.user_input()
-
     """
     I wanted to avoid retyping code as much as possible
     so I did the above function and then created player_guesses
