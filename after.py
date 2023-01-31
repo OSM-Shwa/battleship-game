@@ -6,7 +6,7 @@ import os
 import random as rand
 
 def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
-    """Read an integer between a min and max value"""
+    """Read an integer between a min and max value."""
     
     while True:
         line = input(prompt)
@@ -178,33 +178,11 @@ class Game(object):
             print("Game over! Player {} has lost!".format(self.current_player))
             self.print_board(self.board)
 
-
-"""
-Defining the run function here to easier handle player input.
-Doing it this way avoids using confusing while loops entirely.
-"""
-
-
-def battleship_run():
+def main() -> None:
     os.system("clear")
-    print("Please enter how many players are going to play:")
-    players = input("\n")
-    if len(players) > 0:
-        if int(players) < 0:
-            print("You can't have a negative amount of players. Try again.")
-            return battleship_run()
-        else:
-            return int(players)
-    else:
-        print("You didn't type any player amount! Try again.")
-        return battleship_run()
-
-
-"""
-Here is all that is left outside of functions and the game class. 
-Pretty easy to read if you ask me.
-"""
-
-if __name__ == "__main__":
-    battleship = Game(battleship_run())
+    player_count = read_int("Please enter how many players are going to play: ", max_value=2)
+    battleship = Game(player_count)
     battleship.main()
+    
+if __name__ == "__main__":
+    main()
