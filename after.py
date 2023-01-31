@@ -8,7 +8,6 @@ from typing import Callable
 
 def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
     """Read an integer between a min and max value."""
-    
     while True:
         line = input(prompt)
         try:
@@ -23,8 +22,8 @@ def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
             print("That's not a number! Try again.")
 
 def read_guess(already_guessed: Callable[[int, int], bool]) -> tuple[int, int]:
+    
     while True:
-
         # read the row and column
         guess_row = read_int("Guess row: ", max_value=5) - 1
         guess_col = read_int("Guess column: ", max_value=5) - 1
@@ -53,9 +52,7 @@ class Game(object):
         self.board_visible = c.deepcopy(self.board)
         self.ship_row = rand.randint(0, 4)
         self.ship_col = rand.randint(0, 4)
-        self.guess_row = 0
-        self.guess_col = 0
-
+        
     """
     Defining the many methods that makes the game work,
     starting with the create_matrix where we take in the 
@@ -92,35 +89,17 @@ class Game(object):
             print()
             x += 1
         return None
-
-    """
-    To avoid repeating the same code twice, I made the user_input method more generalized
-    and made a seperate method to take care of if its row or column thats being inputed.
-    That way I can make a robust input check without having to repeat code.
-    I also use recursive methods here to avoid using while loops.
-    """
-
-    """
-    I wanted to avoid retyping code as much as possible
-    so I did the above function and then created player_guesses
-    to take user input and sort it into guesses for row and column
-    As of writing this comment I'm avoiding writing any game logic in the function.
-    """
-
-    
                 
 
-    """
-    Seperating out the game_logic to try to make the main function as readable as possible.
-    This is also an exercise to practice writing recursive code instead of using while loops.
-    """
+    def already_guessed(self, row: int, col: int) -> bool:
+        return self.board[row][col] == "X"
 
     def game_logic(self):
-        self.player_guesses()
+        guess_row, guess_col = read_guess(self.already_guessed)
 
         # I first did -1 here and spread out in the code. Very bad and confusing.
         if (
-            self.board[self.guess_row][self.guess_col]
+            self.board[guess_row][guess_col]
             == self.board[self.ship_row][self.ship_col]
         ):
             # if self.guess_row == self.ship_row and self.guess_col == self.ship_col:
@@ -128,8 +107,8 @@ class Game(object):
         else:
             if self.player_list[self.current_player - 1] > 0:
                 print("Sorry, you missed!")
-                self.board[self.guess_row][self.guess_col] = "X"
-                self.board_visible[self.guess_row][self.guess_col] = "X"
+                self.board[guess_row][guess_col] = "X"
+                self.board_visible[guess_row][guess_col] = "X"
                 self.player_list[self.current_player - 1] -= 1
                 self.print_board(self.board_visible)
 
