@@ -8,6 +8,7 @@ from typing import Callable
 
 def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
     """Read an integer between a min and max value."""
+    
     while True:
         line = input(prompt)
         try:
@@ -32,7 +33,7 @@ def read_guess(already_guessed: Callable[[int, int], bool]) -> tuple[int, int]:
         if not already_guessed(guess_row, guess_col):
             return guess_row, guess_col
 
-        print("You've already guessed on that row! Try again.")
+        print("You've already guessed on that row and column! Try again.")
 
 
 """
